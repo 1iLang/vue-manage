@@ -2,7 +2,7 @@
   <div class="top">
     <div class="l-content">
       <el-button @click="isShowMenu" icon="el-icon-menu" plain size="mini"></el-button>
-      <span>{{this.$store.state.tab.pageName}}</span>
+      <span>首页</span>
     </div>
     <div class="r-content">
       <el-dropdown trigger="click" size="mini">
@@ -21,9 +21,6 @@
 <script>
 export default {
   name: 'CommonHeader',
-  beforeMount() {
-   // console.log(this.$route.path)
-  },
   methods: {
     isShowMenu() {
       this.$store.commit('collapseMenu')

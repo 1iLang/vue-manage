@@ -1,6 +1,7 @@
 <template>
   <el-menu
-    default-active="1-4-1"
+    :default-active="$route.path"
+    :test="$route.path"
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
@@ -19,8 +20,8 @@
       <i :class="'el-icon-' + item.icon"></i>
         <span slot="title">{{item.label}}</span>
       </template>
-      <el-menu-item-group v-for="(subItem,subI) in item.children" :key="subItem.path">
-        <el-menu-item :index="subI.toString()">{{subItem.label}}</el-menu-item>
+      <el-menu-item-group v-for="(subItem,subI) in item.children" :key="subI">
+        <el-menu-item @click="clickMenu(subItem)" :index="subItem.path">{{subItem.label}}</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>
@@ -49,7 +50,7 @@ export default {
     return {
       menu: [
         {
-          path:'/',
+          path:'/home',
           name:'home',
           label:'首页',
           icon:'s-home',
@@ -93,6 +94,9 @@ export default {
       ]
     };
   },
+  beforeMount() {
+    this.upDatePageN()
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -100,9 +104,30 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    clickMenu(item) {
-      this.$router.push({
-        name:item.name
+    clickMenu(item) {//点击侧栏改变header头部名称
+      if(this.$route.path !== item.path) {//防止同一页面多次点击
+        this.$router.push({name:item.name})
+        this.$store.commit('changePageName',item.label)
+      }
+    },
+    upDatePageN(){//页面刷新header头部名称保持状态
+      let noChildren = this.noChildren
+      let hasChildren = this.hasChildren
+      let path = this.$route.path , istrue = true
+      noChildren.forEach(i => {
+        if(path === i.path) {
+          this.$store.commit('changePageName',i.label)
+          return istrue = false
+        }
+        return
+      });
+      istrue && hasChildren.forEach(x => {
+        x.children.forEach(y => {
+          if(path === y.path) {
+            this.$store.commit('changePageName',y.label)
+            return;
+          }
+        })
       })
     }
   },

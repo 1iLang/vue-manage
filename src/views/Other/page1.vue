@@ -1,11 +1,11 @@
 <template>
-  <div>我是other</div>
+  <div>page1</div>
 </template>
 
 
 <script>
 export default {
-  name: 'OOther',
+  name: 'OPage1',
   data () {
     return {}
   },

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import config from './config'
+import config from '../config'
 
 const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config. baseUrl.pro
 
@@ -8,7 +8,7 @@ class HttpRequest {
         this.baseUrl = baseUrl
     }
 
-    getInsideConfit() {
+    getInsideConfig() {
       const config = {
           baseUrl: this.baseUrl,
           header: {}
@@ -32,11 +32,12 @@ class HttpRequest {
         return response
       },function(error){
         //对响应错误做些什么
+        console.log(error,'error')
         return Promise.reject(error)
       })
     }
     request(options) {
-      const instance = axios.creater()
+      const instance = axios.create()
       options = { ...this.getInsideConfig(), ...options}
       this.interceptors(instance)
       return instance(options)

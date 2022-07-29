@@ -49,10 +49,18 @@
           </div>
         </el-card>
       </div>
-      <el-card style="margin-top: 10px; height: 280px"></el-card>
+
+      <el-card style="margin-top: 10px; height: 280px">
+        <echart :chartData="echartData.order" style="height:280px"/>
+      </el-card>
+
       <div class="graph">
-        <el-card style="height:260px"></el-card>
-        <el-card style="height:260px"></el-card>
+        <el-card style="height:260px">
+        <echart :chartData="echartData.user" style="height:260px"/>
+        </el-card>
+        <el-card style="height:260px">
+        <echart :chartData="echartData.video" :isAxisChart="false" style="height:260px"/>
+        </el-card>
       </div>
     </el-col>
   </el-row>
@@ -109,8 +117,14 @@ p {
 </style>
 
 <script>
+import {getData} from '../../api/data.js' 
+import Echart from '../../components/ECharts.vue'
+// import * as echarts from 'echarts'
 export default {
   name: "HHome",
+  components: {
+    Echart
+  },
   data() {
     return {
       tableData: [
@@ -195,16 +209,66 @@ export default {
           color: "#5ab1ef",
         },
       ],
+      echartData: {
+        order: {
+          xData: [],
+          series: []
+        },
+        user: {
+          xData: [],
+          series: []
+        },
+        video: {
+          series: []
+        }
+      }
     };
   },
   mounted() {
-    this.$http.get('/user?ID=12345')
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    getData().then(res => {
+      // console.log(res)
+      const {code,data} = res.data
+      if (code === 20000) {
+        this.tableData = data.tableData
+        const order = data.orderData
+        const xData = order.date
+        const keyArray = Object.keys(order.data[0])
+        const series = []
+        keyArray.forEach(key => {
+          series.push({
+            name: key,
+            data: order.data.map(item => item[key]),
+            type: 'line'
+          })
+        })
+        //折线图
+        this.echartData.order.xData = xData
+        this.echartData.order.series = series
+
+        //柱状图
+        this.echartData.user.xData = data.userData.map(item => item.date)
+        this.echartData.user.series = [
+            {
+              name: '新增用户',
+              type: 'bar',
+              data: data.userData.map(item => item.new),
+            },
+            {
+              name: '活跃用户',
+              type: 'bar',
+              data: data.userData.map(item => item.active),
+            },
+          ]
+
+        //饼图
+        this.echartData.video.series = [
+            {
+              type: 'pie',
+              data: data.videoData
+            },
+          ]
+      }
+    })
   }
 };
 </script>
