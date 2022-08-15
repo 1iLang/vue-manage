@@ -117,7 +117,7 @@ p {
 </style>
 
 <script>
-import {getData} from '../../api/data.js' 
+import {getData} from '../../api/request.js' 
 import Echart from '../../components/ECharts.vue'
 // import * as echarts from 'echarts'
 export default {
@@ -226,7 +226,6 @@ export default {
   },
   mounted() {
     getData().then(res => {
-      // console.log(res)
       const {code,data} = res.data
       if (code === 20000) {
         this.tableData = data.tableData

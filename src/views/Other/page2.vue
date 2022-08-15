@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'OPage2',
+  name: 'pageTwo',
   data () {
     return {}
   },

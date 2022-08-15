@@ -48,54 +48,63 @@
 export default {
   data() {
     return {
-      menu: [
-        {
-          path:'/home',
-          name:'home',
-          label:'首页',
-          icon:'s-home',
-          url:'Home/Home',
-        },
-        {
-          path:'/mall',
-          name:'mall',
-          label:'商品管理',
-          icon:'video-play',
-          url:'MallManage/MallManage',
-        },
-        {
-          path:'/user',
-          name:'user',
-          label:'用户管理',
-          icon:'user',
-          url:'Usermanage/Usermanage',
-        },
-        {
-          label:'其他',
-          path:'other',
-          icon:'location',
-          children:[
-            {
-              path:'/page1',
-              name:'page1',
-              label:'页面1',
-              icon:'setting',
-              url:'Other/PageOne',
-            },
-            {
-              path:'/page2',
-              name:'page2',
-              label:'页面2',
-              icon:'setting',
-              url:'Other/PageTwo',
-            },
-          ]
-        },
-      ]
+      // menu: [
+      //   {
+      //     path:'/home',
+      //     name:'home',
+      //     label:'首页',
+      //     icon:'s-home',
+      //     url:'Home/Home',
+      //   },
+      //   {
+      //     path:'/mall',
+      //     name:'mall',
+      //     label:'商品管理',
+      //     icon:'video-play',
+      //     url:'MallManage/MallManage',
+      //   },
+      //   {
+      //     path:'/user',
+      //     name:'user',
+      //     label:'用户管理',
+      //     icon:'user',
+      //     url:'Usermanage/Usermanage',
+      //   },
+      //   {
+      //     label:'其他',
+      //     path:'other',
+      //     icon:'location',
+      //     children:[
+      //       {
+      //         path:'/page1',
+      //         name:'page1',
+      //         label:'页面1',
+      //         icon:'setting',
+      //         url:'Other/PageOne',
+      //       },
+      //       {
+      //         path:'/page2',
+      //         name:'page2',
+      //         label:'页面2',
+      //         icon:'setting',
+      //         url:'Other/PageTwo',
+      //       },
+      //     ]
+      //   },
+      // ]
+      menu: JSON.parse(window.sessionStorage.token).menuData
     };
   },
   beforeMount() {
     this.upDatePageN()
+  },
+    beforeRouterLeave(to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不！能！获取组件实例 `this`
+    // 因为当守卫执行前，组件实例还没被创建
+    console.log(to)
+    console.log(from)
+    console.log(next)
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -108,24 +117,23 @@ export default {
       if(this.$route.path !== item.path) {//防止同一页面多次点击
         this.$router.push({name:item.name})
         this.$store.commit('changePageName',item.label)
+        this.$store.commit('tagAdd',item)
       }
     },
     upDatePageN(){//页面刷新header头部名称保持状态
-      let noChildren = this.noChildren
-      let hasChildren = this.hasChildren
       let path = this.$route.path , istrue = true
-      noChildren.forEach(i => {
+      this.noChildren.forEach(i => {
         if(path === i.path) {
           this.$store.commit('changePageName',i.label)
           return istrue = false
         }
         return
       });
-      istrue && hasChildren.forEach(x => {
+      istrue && this.hasChildren.forEach(x => {
         x.children.forEach(y => {
           if(path === y.path) {
             this.$store.commit('changePageName',y.label)
-            return;
+            return
           }
         })
       })
