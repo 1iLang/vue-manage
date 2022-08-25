@@ -31,7 +31,7 @@
       @current-change="changePage"
       hide-on-single-page
       :total="total" 
-      :current-page="curPage"
+      :current-page.sync="curPage"
     >
     </el-pagination>
   </div>
@@ -44,29 +44,35 @@ export default {
     userList: [],
     inline: Boolean,
     total:null,
-    curPage:null,
     isSerach:Boolean,
   },
   data() {
     return {
-      serachList:[]
+      serachList:[],
+      curPage: 0
     };
   },
   watch: {
-    isSerach: 'sList'
+    userList: 'sList'
   },
   methods: {
     handleEdit(row) {
+      // if(this.isSerach) this.curPage = 1
       this.$emit('handleEdit',row)
     },
     handleDelete(row) {
+      // if(this.isSerach) this.curPage = 1
       this.$emit('handleDelete',row)
     },
     changePage(page) {
         this.isSerach ? this.sList(page) : this.$emit('changePage',page)
     },
-    sList(page = 1) {
+    sList(page) {
       if(this.isSerach){
+          if(typeof page === 'object'){
+            page = 1
+            this.curPage = 1
+          }
           let s = 10 , p = page - 1
           this.serachList = this.userList.slice(p*s,p*s+s)
       }

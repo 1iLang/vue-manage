@@ -5,6 +5,7 @@
     :model="login"
     :rules="rules"
     ref="loginForm"
+    @keyup.enter.native="submitLogin('loginForm')"
   >
     <h3 class="center">系统登录</h3>
     <el-form-item label="用户名" prop="userName">

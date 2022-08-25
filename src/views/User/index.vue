@@ -14,7 +14,6 @@
       @handleDelete='deleteUser'
       :userList="userList" 
       :isSerach="isSerach"
-      :curPage="curPage"
       :total="total">
     </common-table>
 
@@ -97,9 +96,10 @@ export default {
       }
     },
     editUser(row) {
+      let res = JSON.parse(JSON.stringify(row))
       this.dialog = true
       this.dialogTitle = 'edit'
-      this.form = row
+      this.form = res
     },
     deleteUser(row) {
       this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
@@ -114,8 +114,8 @@ export default {
     serachUser() {
       if (this.serachPre !== this.serach) {
           this.serachPre = this.serach
-          this.isSerach = false
-          this.curPage = 1
+          // this.isSerach = false
+          // this.curPage = 1
         if (this.serach !== "") {
           this.confirm('serach',this.serach)
         } else {

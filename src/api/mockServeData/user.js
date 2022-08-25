@@ -165,7 +165,7 @@ export default {
   },
 
   operateUser: (data) => {    
-   let d = JSON.parse(data.body) ,searchList = []
+   let d = JSON.parse(data.body), searchList = null
    switch(d.type) {
       case 'add':
         uList.unshift(d.data)
@@ -187,7 +187,9 @@ export default {
           }
           break;
       case 'serach':
-        uList.map((val,i) => {
+        var sList = JSON.parse(JSON.stringify(uList))
+        searchList = []
+        sList.map((val,i) => {
           delete val.idCard
           if(JSON.stringify(val).includes(d.data)) {
             searchList.push(uList[i]);
