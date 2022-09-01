@@ -11,7 +11,7 @@
       ><!---等同于 this.$store.state.tab.pageName--->
     </div>
     <div class="r-content">
-      <el-dropdown @command="handleCommand" click="el-user" size="mini">
+      <el-dropdown @command="handleCommand" class="el-user" size="mini">
         <span>
           {{ userName }}<i class="el-icon-arrow-down el-icon--right el-pos"></i>
         </span>
