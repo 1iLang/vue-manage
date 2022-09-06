@@ -4,13 +4,13 @@ import config from '../config'
 const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config. baseUrl.pro
 
 class HttpRequest {
-    constructor (baseUrl) {
+    constructor () {
         this.baseUrl = baseUrl
     }
 
     getInsideConfig() {
       const config = {
-          baseUrl: this.baseUrl,
+          baseURL: this.baseUrl,
           header: {}
       }
       return config
@@ -44,4 +44,4 @@ class HttpRequest {
     }
 }
 
-export default new HttpRequest(baseUrl)
+export default new HttpRequest()
