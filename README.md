@@ -1,24 +1,7 @@
-# vue-manage
+# 简介
 
-## Project setup
-```
-npm install
-```
+基于vue2后台管理系统
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 技术栈
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+vue2 + element + vue/cli + vuex@3 + vue-router@3 + less + ES6/7
