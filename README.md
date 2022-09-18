@@ -4,4 +4,5 @@
 
 ## 技术栈
 
-vue2 + element + vue/cli + vuex@3 + vue-router@3 + less + ES6/7
+vue2 + element + vue/cli + vuex@3 + vue-router@3 + less + axios + mockjs + echarts
+
