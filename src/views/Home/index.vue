@@ -83,21 +83,22 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-}
-.order>div {
-  width: 32.5%;
-  box-sizing: border-box;
-}
-.order .icon {
-  display: flex;
-  width: 80px;
-  font-size: 30px;
-  color: #fff;
-  justify-content: center;
-  align-items: center;
-}
-.order p {
-  text-indent: 20px;
+  >div {
+    width: 32.5%;
+    box-sizing: border-box;
+  } 
+  .icon {
+    display: flex;
+    width: 80px;
+    font-size: 30px;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+  }
+  p {
+    text-indent: 5px;
+    white-space: nowrap;
+  }
 }
 .money {
   font-size: 25px;
